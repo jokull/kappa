@@ -12,7 +12,6 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 from datetime import datetime
-import logging
 import base64
 
 import click
@@ -37,6 +36,7 @@ def cli(ctx, config=None, debug=False):
     ctx.obj['debug'] = debug
     ctx.obj['config'] = config
 
+
 @cli.command()
 @click.pass_context
 def create(ctx):
@@ -45,6 +45,7 @@ def create(ctx):
     context.create()
     click.echo('...done')
 
+
 @cli.command()
 @click.pass_context
 def update_code(ctx):
@@ -52,6 +53,7 @@ def update_code(ctx):
     click.echo('updating code...')
     context.update_code()
     click.echo('...done')
+
 
 @cli.command()
 @click.pass_context
@@ -63,6 +65,7 @@ def invoke(ctx):
     click.echo(log_data)
     click.echo('...done')
 
+
 @cli.command()
 @click.pass_context
 def dryrun(ctx):
@@ -71,6 +74,7 @@ def dryrun(ctx):
     response = context.dryrun()
     click.echo(response)
     click.echo('...done')
+
 
 @cli.command()
 @click.pass_context
@@ -81,15 +85,17 @@ def invoke_async(ctx):
     click.echo(response)
     click.echo('...done')
 
+
 @cli.command()
 @click.pass_context
 def tail(ctx):
     context = Context(ctx.obj['config'], ctx.obj['debug'])
     click.echo('tailing logs...')
     for e in context.tail()[-10:]:
-        ts = datetime.utcfromtimestamp(e['timestamp']//1000).isoformat()
+        ts = datetime.utcfromtimestamp(e['timestamp'] // 1000).isoformat()
         click.echo("{}: {}".format(ts, e['message']))
     click.echo('...done')
+
 
 @cli.command()
 @click.pass_context
@@ -126,6 +132,7 @@ def status(ctx):
             else:
                 click.echo(click.style('    None', fg='green'))
 
+
 @cli.command()
 @click.pass_context
 def delete(ctx):
@@ -134,6 +141,7 @@ def delete(ctx):
     context.delete()
     click.echo('...done')
 
+
 @cli.command()
 @click.pass_context
 def add_event_sources(ctx):
@@ -141,6 +149,7 @@ def add_event_sources(ctx):
     click.echo('adding event sources...')
     context.add_event_sources()
     click.echo('...done')
+
 
 @cli.command()
 @click.pass_context
